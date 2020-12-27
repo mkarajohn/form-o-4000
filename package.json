@@ -5,8 +5,19 @@
     "name": "Dimitris Karagiannis",
     "url": "https://dev.to/mitchkarajohn"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mkarajohn/form-o-4000.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mkarajohn/form-o-4000/issues"
+  },
   "description": "A React form using hooks.",
+  "main": "./dist/FormO4000/index.js",
+  "types": "./dist/FormO4000/index.d.ts",
   "dependencies": {
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
     "react-scripts": "4.0.1"
   },
   "peerDependencies": {
@@ -14,6 +25,11 @@
     "react-dom": "^16.14.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "@babel/preset-typescript": "^7.12.7",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -21,14 +37,23 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "cross-env": "^7.0.3",
     "eslint-config-prettier": "^7.1.0",
+    "install-peerdeps": "^2.0.3",
     "prettier": "^2.2.1",
+    "rimraf": "^3.0.2",
     "typescript": "^4.0.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "prepare": "yarn build",
+    "prebuild": "rimraf dist",
+    "start": "install-peerdeps form-o-4000 --yarn --only-peers && react-scripts start",
+    "build:cra": "install-peerdeps form-o-4000 --yarn --only-peers && react-scripts build",
+    "build": "yarn build:npm && yarn build:types",
     "test": "react-scripts test",
+    "build:types": "tsc --project ./tsconfig.npm.json --emitDeclarationOnly",
+    "build:npm": "cross-env NODE_ENV=production BABEL_ENV=production babel src --config-file ./babelrc.npm.json --extensions '.ts,.tsx' --out-dir ./dist",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
